@@ -118,21 +118,21 @@ combined_df.head()
 group_by_city = combined_df.groupby('city')
 
 # ride count per city
-rides_count = group_df['city'].count()
+rides_count = group_by_city['city'].count()
 
 # city by city type
 city_type = city_df.set_index('city')['type']
 
 # Avg fare calculation per city
-avg_fare = group_df['fare'].mean()
+avg_fare = group_by_city['fare'].mean()
 
 #driver count 
-driver_count = group_df['driver_count'].sum()
+driver_count = group_by_city['driver_count'].sum()
 
 #create new data frame
 new_city_info = pd.DataFrame({"Number of Rides" : rides_count,
                            "Avg Fare" : avg_fare,
-                           "Number of Drivers": driver_city,
+                           "Number of Drivers": driver_count,
                            "type" : city_type})
 
 
@@ -226,7 +226,7 @@ suburban_df = new_city_info.loc[new_city_info['type']=="Suburban"]
 ```python
 # Create a scatter plot which compares rides to fare
 import seaborn as sns
-plt.scatter(urban_df['Number of Rides'],urban_df['Avg Fare'], s = urban_df['Number of Drivers']*0.75, marker = 'o', 
+plt.scatter(urban_df['Number of Rides'],urban_df['Avg Fare'], s = urban_df['Number of Drivers']*0.25, marker = 'o', 
                                        facecolors ='Coral', alpha =0.75, edgecolors ='black', label = 'Urban')
 
 
@@ -238,14 +238,17 @@ plt.scatter(rural_df['Number of Rides'],rural_df['Avg Fare'], s = rural_df['Numb
 
 
 
-sns.set()
+
 
 #print scatter plot
+plt.suptitle('Pyber Ride Sharing Data')
 plt.title('Note : Size of Bubble Corresponds to Number of Drivers per City')
 plt.xlabel('Total Number of Rides (per City)')
 plt.ylabel('Average Fare($)')
 
 
+plt.grid(b=True, which='major', color='w', linewidth=1.0)
+plt.grid(b=True, which='minor', color='w', linewidth=0.5)
 
 lgnd = plt.legend(frameon = True, edgecolor = 'black')
 lgnd.legendHandles[0]._sizes = [75]
@@ -292,10 +295,6 @@ plt.show()
 ![png](output_10_0.png)
 
 
-
-    <matplotlib.figure.Figure at 0x2f37f26cc18>
-
-
 # Total Rides by city type
 
 
@@ -326,10 +325,6 @@ plt.show()
 ![png](output_12_0.png)
 
 
-
-    <matplotlib.figure.Figure at 0x2f37fdf85c0>
-
-
 # Drivers by city type
 
 
@@ -356,8 +351,4 @@ plt.show()
 
 
 ![png](output_14_0.png)
-
-
-
-    <matplotlib.figure.Figure at 0x2f37fcdd8d0>
 
